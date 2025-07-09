@@ -1,31 +1,38 @@
-import type { Metadata } from 'next';
+'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { AuthProvider } from '../context/AuthContext';
+import React from 'react';
+import Providers from '@/components/Providers';
+import { useTheme } from '@/context/ThemeContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Secure Password Manager',
-  icons: {
-    icon: '/assets/icon.png',
-  },
-  description: 'A zero-knowledge password manager with client-side encryption',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+export const metadata = {
+    title: 'Secure Password Manager',
+    description: 'A zero-knowledge password manager with client-side encryption',
+};
+
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: 'no',
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className="h-full">
-      <body className={`${inter.className} h-full bg-gray-50`}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </body>
-    </html>
-  );
+    // Use theme context to set dark class
+    const { theme } = useTheme();
+    return (
+        <html lang="en" className={`h-full${theme === 'dark' ? ' dark' : ''}`}>
+            <body className={`${inter.className} h-full bg-[var(--background)] text-[var(--foreground)]`}>
+                <Providers>
+                    {children}
+                </Providers>
+            </body>
+        </html>
+    );
 }

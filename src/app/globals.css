@@ -3,19 +3,32 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --card-bg: #f8fafc;
+  --card-border: #e5e7eb;
+  --input-bg: #fff;
+  --input-border: #d1d5db;
+  --input-text: #171717;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --danger: #ef4444;
+  --danger-bg: #fee2e2;
+  --danger-text: #b91c1c;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card-bg: #18181b;
+    --card-border: #27272a;
+    --input-bg: #23272f;
+    --input-border: #3f3f46;
+    --input-text: #ededed;
+    --accent: #60a5fa;
+    --accent-hover: #3b82f6;
+    --danger: #f87171;
+    --danger-bg: #7f1d1d;
+    --danger-text: #fee2e2;
   }
 }
 
@@ -23,4 +36,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+input, textarea, select {
+  background: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--input-border);
+}
+
+button {
+  font-family: inherit;
 }

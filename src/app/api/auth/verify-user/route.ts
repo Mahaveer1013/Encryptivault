@@ -1,31 +1,32 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
+import { cookies } from 'next/headers';
 
-export async function POST(request: Request) {
+export async function GET() {
   try {
-    const { email, password, rememberMe } = await request.json();
-    const db = await getDb();
-    const user = await db.collection('users').findOne({ email });
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string, email: string };
+
+    const db = await getDb();
+    const user = await db.collection('users').findOne({ _id: new ObjectId(decoded.userId) });
+
+    if (!user) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }
       );
     }
 
-    const token = jwt.sign(
-      { userId: user._id.toString(), email: user.email },
-      process.env.JWT_SECRET!,
-      { expiresIn: rememberMe ? '30d' : '1d' }
-    );
-
     const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json({
-      token,
       user: userWithoutPassword,
     });
   } catch (error) {

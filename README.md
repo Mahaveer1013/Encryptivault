@@ -1,8 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PassiVault - Secure Password Manager
+
+A secure password manager built with Next.js, featuring client-side encryption and a deletion password system for enhanced security.
+
+## Features
+
+- 🔐 Client-side encryption for maximum security
+- 📁 Folder-based organization
+- 🗑️ Deletion password protection
+- 👤 User authentication
+- 📧 Email verification
+- 🎨 Modern, responsive UI
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- MongoDB instance
+- Email service (for verification)
+
+### Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Database
+MONGODB_URI=mongodb://localhost:27017/passivault
+
+# JWT Secret
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+
+# Email Configuration
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASSWORD=your-app-password
+
+# Deletion Password (required for deleting passwords)
+DELETION_PASSWORD=your-deletion-password-change-this-in-production
+```
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up your environment variables
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -16,9 +61,13 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Security Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Deletion Password
+When deleting passwords, users must provide a deletion password that matches the `DELETION_PASSWORD` environment variable. This adds an extra layer of protection against accidental or unauthorized deletions.
+
+### Client-Side Encryption
+All passwords are encrypted on the client side before being stored in the database, ensuring that even if the database is compromised, the passwords remain secure.
 
 ## Learn More
 

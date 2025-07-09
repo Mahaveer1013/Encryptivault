@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import jwt from 'jsonwebtoken';
 import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.headers.get('Authorization')?.split(' ')[1];
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -37,7 +39,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const token = request.headers.get('Authorization')?.split(' ')[1];
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
