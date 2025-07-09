@@ -1,6 +1,7 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { createContext, RefObject, useContext, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import MasterKey from './Masterkey';
 
 interface AuthContextType {
     user: any;
@@ -11,6 +12,7 @@ interface AuthContextType {
     setMasterKey: (key: string | null) => void;
     loading: boolean;
     register: (email: string, password: string) => Promise<void>;
+    masterKeySession: MasterKey;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -19,21 +21,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<any>(null);
     const [masterKey, setMasterKey] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const masterKeySession = useRef<MasterKey>(new MasterKey());
     const router = useRouter();
 
     useEffect(() => {
         async function loadUser() {
-            setLoading(true);
             try {
-                const response = await fetch('/api/auth/verify-user', {
+                setLoading(true);
+                const res = await fetch('/api/auth/verify-user', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     credentials: 'include',
                 });
-                if (response.ok) {
-                    const userData = await response.json();
+
+                if (res.ok) {
+                    const userData = await res.json();
                     setUser(userData.user);
                 } else {
                     logout(false);
@@ -107,6 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 setMasterKey,
                 loading,
                 register,
+                masterKeySession: masterKeySession.current,
             }}
         >
             {children}

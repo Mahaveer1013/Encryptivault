@@ -1,9 +1,10 @@
 "use client";
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
+import ThemeChanger from '@/components/ThemeChanger';
+import { LockClosedIcon } from '@heroicons/react/24/outline';
 
 export default function DashboardLayout({
     children,
@@ -13,9 +14,13 @@ export default function DashboardLayout({
     const router = useRouter();
     const { isAuthenticated } = useAuth();
     const { theme, toggleTheme } = useTheme();
-    if (!isAuthenticated) {
-        router.push('/auth/login');
-    }
+    const { masterKeySession } = useAuth();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            router.push('/auth/login');
+        }
+    }, [isAuthenticated, router]);
+
     return (
         <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
             <nav className="bg-[var(--card-bg)] shadow-sm border-b border-[var(--card-border)]">
@@ -24,20 +29,16 @@ export default function DashboardLayout({
                         <h1 className="text-xl font-semibold">Secure Vault</h1>
                         <div className="flex items-center gap-2">
                             <button
-                                onClick={toggleTheme}
+                                onClick={() => {
+                                    masterKeySession.removeAllKeys();
+                                }}
                                 className="flex items-center px-3 py-2 rounded-md bg-[var(--input-bg)] text-[var(--input-text)] border border-[var(--input-border)] hover:bg-[var(--card-bg)] transition"
                                 aria-label="Toggle theme"
                             >
-                                {theme === 'dark' ? (
-                                    <SunIcon className="h-5 w-5 mr-2" />
-                                ) : (
-                                    <MoonIcon className="h-5 w-5 mr-2" />
-                                )}
-                                {theme === 'dark' ? 'Light' : 'Dark'}
+                                <LockClosedIcon className="h-5 w-5" />
                             </button>
-                            <button className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md" onClick={() => {
-                                router.push('/api/auth/logout');
-                            }}>Logout</button>
+                            <ThemeChanger theme={theme} toggleTheme={toggleTheme} />
+                            <button className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md" onClick={() => router.push('/api/auth/logout')}>Logout</button>
                         </div>
                     </div>
                 </div>

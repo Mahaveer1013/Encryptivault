@@ -1,11 +1,11 @@
 import * as CryptoJS from 'crypto-js';
 
-export const encrypt = (data: string, key: string) => {
-  return CryptoJS.AES.encrypt(data, key).toString();
+export const encrypt = (data: string, key: string, iv: string) => {
+  return CryptoJS.AES.encrypt(data, key, { iv: CryptoJS.enc.Hex.parse(iv) }).toString();
 };
 
-export const decrypt = (ciphertext: string, key: string) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, key);
+export const decrypt = (ciphertext: string, key: string, iv: string) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, key, { iv: CryptoJS.enc.Hex.parse(iv) });
   return bytes.toString(CryptoJS.enc.Utf8).trim();
 };
 

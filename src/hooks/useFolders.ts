@@ -1,4 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/get-query-client';
 
 export function useFolders() {
     return useQuery({
@@ -12,7 +13,7 @@ export function useFolders() {
 }
 
 export function useCreateFolder() {
-    const queryClient = useQueryClient();
+    const queryClient = getQueryClient();
     return useMutation({
         mutationFn: async (body: any) => {
             const res = await fetch('/api/folders', {

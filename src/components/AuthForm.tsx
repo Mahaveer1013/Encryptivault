@@ -36,7 +36,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
       )}
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="email" className="block text-sm font-medium text-[var(--foreground)]">
           Email address
         </label>
         <div className="mt-1">
@@ -54,7 +54,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="password" className="block text-sm font-medium text-[var(--foreground)]">
           Password
         </label>
         <div className="mt-1">
@@ -81,7 +81,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
             onChange={(e) => setRememberMe(e.target.checked)}
             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+          <label htmlFor="remember-me" className="ml-2 block text-sm text-[var(--foreground)]">
             Remember me
           </label>
         </div>

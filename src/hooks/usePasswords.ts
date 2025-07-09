@@ -1,4 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/get-query-client';
 
 export function usePasswords(folderId: string | null) {
     return useQuery({
@@ -14,7 +15,7 @@ export function usePasswords(folderId: string | null) {
 }
 
 export function useCreatePassword() {
-    const queryClient = useQueryClient();
+    const queryClient = getQueryClient();
     return useMutation({
         mutationFn: async (body: any) => {
             const res = await fetch('/api/passwords', {

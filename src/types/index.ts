@@ -17,3 +17,11 @@ export interface Password {
     userId: string;
     createdAt: Date;
 }
+
+export interface PasswordRequest {
+    site: string;
+    username: string;
+    encryptedPassword: string;
+    iv: string;
+    folder: string;
+}

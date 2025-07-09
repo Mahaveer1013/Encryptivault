@@ -3,7 +3,9 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '../context/AuthContext';
 import React from 'react';
 import { getQueryClient } from '@/lib/get-query-client';
-import { ThemeProvider } from '../context/ThemeContext';
+import { useTheme } from '@/context/ThemeContext';
+import Toast from './Toast';
+import { useToast } from '@/context/ToastContext';
 
 export default function Providers({
     children,
@@ -11,13 +13,23 @@ export default function Providers({
     children: React.ReactNode;
 }) {
     const queryClient = getQueryClient();
+    // Use theme context to set dark class
+    const { theme } = useTheme();
+    const { toast } = useToast();
     return (
-        <ThemeProvider>
+        <AuthProvider>
             <QueryClientProvider client={queryClient}>
-                <AuthProvider>
+                <div className={`h-full ${theme === 'dark' ? ' dark' : ''}`}>
                     {children}
-                </AuthProvider>
+                    {toast && (
+                        <Toast
+                            message={toast.message}
+                            type={toast.type}
+                            onClose={toast.onClose}
+                        />
+                    )}
+                </div>
             </QueryClientProvider>
-        </ThemeProvider>
+        </AuthProvider>
     );
 }

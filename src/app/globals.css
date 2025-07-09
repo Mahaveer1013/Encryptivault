@@ -15,11 +15,10 @@
   --danger-text: #b91c1c;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
+  .dark {
+    --background: #171717;
     --foreground: #ededed;
-    --card-bg: #18181b;
+    --card-bg: #222227;
     --card-border: #27272a;
     --input-bg: #23272f;
     --input-border: #3f3f46;
@@ -29,7 +28,6 @@
     --danger: #f87171;
     --danger-bg: #7f1d1d;
     --danger-text: #fee2e2;
-  }
 }
 
 body {
@@ -39,9 +37,9 @@ body {
 }
 
 input, textarea, select {
-  background: var(--input-bg);
-  color: var(--input-text);
-  border-color: var(--input-border);
+  background: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-border) !important;
 }
 
 button {

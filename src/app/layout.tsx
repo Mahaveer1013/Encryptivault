@@ -1,9 +1,9 @@
-'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
 import Providers from '@/components/Providers';
-import { useTheme } from '@/context/ThemeContext';
+import { ThemeProvider } from '../context/ThemeContext';
+import { ToastProvider } from '@/context/ToastContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,14 +24,16 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    // Use theme context to set dark class
-    const { theme } = useTheme();
     return (
-        <html lang="en" className={`h-full${theme === 'dark' ? ' dark' : ''}`}>
+        <html lang="en">
             <body className={`${inter.className} h-full bg-[var(--background)] text-[var(--foreground)]`}>
-                <Providers>
-                    {children}
-                </Providers>
+                <ThemeProvider>
+                    <ToastProvider>
+                        <Providers>
+                            {children}
+                        </Providers>
+                    </ToastProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

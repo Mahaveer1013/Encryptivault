@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default async function VerifyEmailPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center">
                 <CheckCircleIcon className="h-16 w-16 text-blue-500 mb-4" aria-hidden="true" />
                 <h2 className="text-center text-3xl font-extrabold text-gray-900">
