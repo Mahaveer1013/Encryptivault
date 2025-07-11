@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { logoutApi, loginApi, verifyApi } from '@/components/api'; // Adjust the import path as necessary
+import { logoutApi, loginApi, verifyApi } from 'components/api'; // Adjust the import path as necessary
 
 interface AuthContextType {
     user: any;

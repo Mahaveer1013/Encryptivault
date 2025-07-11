@@ -1,9 +1,9 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
-import Providers from '@/components/Providers';
+import Providers from 'components/Providers';
 import { ThemeProvider } from '../context/ThemeContext';
-import { ToastProvider } from '@/context/ToastContext';
+import { ToastProvider } from 'context/ToastContext';
 
 
 const inter = Inter({ subsets: ['latin'] });

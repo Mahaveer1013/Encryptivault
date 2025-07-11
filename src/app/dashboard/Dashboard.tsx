@@ -5,9 +5,9 @@ import FolderList from '../../components/dashboard/folders/FolderList';
 import FolderModal from '../../components/dashboard/folders/FolderModal';
 import { useQuery } from '@tanstack/react-query';
 import { getFoldersApi } from '../../components/api';
-import { getQueryClient } from '@/lib/get-query-client';
-import { useToast } from '@/context/ToastContext';
-import { useAuth } from '@/context/AuthContext';
+import { getQueryClient } from 'lib/get-query-client';
+import { useToast } from 'context/ToastContext';
+import { useAuth } from 'context/AuthContext';
 
 export default function Dashboard() {
     const [showFolderModal, setShowFolderModal] = useState(false);

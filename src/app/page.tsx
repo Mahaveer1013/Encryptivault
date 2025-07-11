@@ -3,8 +3,8 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
-import { getDb } from '@/lib/db';
-import ThemeChanger from '@/components/ThemeChanger';
+import { getDb } from 'lib/db';
+import ThemeChanger from 'components/ThemeChanger';
 
 export default async function HomePage() {
     const cookieStore = await cookies();

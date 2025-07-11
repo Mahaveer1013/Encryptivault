@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/db';
+import { getDb } from 'lib/db';
 import { NextRequest } from 'next/server';
-import { addPasswordToGoogleDrive } from '@/lib/gdrive';
+import { addPasswordToGoogleDrive } from 'lib/gdrive';
 
 
 export async function GET(request: NextRequest) {
     try {
         const userId = request.headers.get('x-user-id')!;
 
-        if(!userId) {
+        if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
         }
 
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     try {
         const userId = request.headers.get('x-user-id')!;
 
-        if(!userId) {
+        if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
         }
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
         const result = await db.collection('passwords').insertOne(password);
 
-        addPasswordToGoogleDrive({...password, _id:result.insertedId.toString()}, folder, userId);
+        addPasswordToGoogleDrive({ ...password, _id: result.insertedId.toString() }, folder, userId);
 
         return NextResponse.json({
             _id: result.insertedId,

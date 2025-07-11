@@ -2,10 +2,10 @@
 
 import { EyeIcon, EyeSlashIcon, ClipboardDocumentIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { decrypt, hashKey } from '@/lib/encryption';
+import { decrypt, hashKey } from 'lib/encryption';
 import DeletePasswordModal from './DeletePasswordModal';
-import { deletePasswordApi } from '@/components/api';
-import { useToast } from '@/context/ToastContext';
+import { deletePasswordApi } from 'components/api';
+import { useToast } from 'context/ToastContext';
 
 interface PasswordListProps {
     passwords: any[];
@@ -60,10 +60,12 @@ export default function PasswordList({ passwords, masterKey, folderSalt, onPassw
             }
         } catch (err) {
             console.error('Failed to delete password:', err);
-            setToast({ message: 'Failed to delete password', type: 'error', onClose: () => {
-                setDeleteModalOpen(false);
-                setPasswordToDelete(null);
-            } });
+            setToast({
+                message: 'Failed to delete password', type: 'error', onClose: () => {
+                    setDeleteModalOpen(false);
+                    setPasswordToDelete(null);
+                }
+            });
         }
     };
 

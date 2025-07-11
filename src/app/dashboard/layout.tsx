@@ -1,8 +1,8 @@
 "use client";
 import { ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import ThemeChanger from '@/components/ThemeChanger';
+import { useAuth } from 'context/AuthContext';
+import ThemeChanger from 'components/ThemeChanger';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 
 export default function DashboardLayout({

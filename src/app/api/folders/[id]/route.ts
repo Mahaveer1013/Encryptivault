@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/db';
+import { getDb } from 'lib/db';
 import { NextRequest } from 'next/server';
 import { ObjectId } from 'mongodb';
 
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     try {
         const userId = request.headers.get('x-user-id')!;
 
-        if(!userId) {
+        if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
         }
 
@@ -42,7 +42,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     try {
         const userId = request.headers.get('x-user-id')!;
 
-        if(!userId) {
+        if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
         }
 

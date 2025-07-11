@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { FolderIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/24/outline';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from 'context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function FolderCard({ folder }: { folder: any }) {

@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { generateSalt, hashKey } from '@/lib/encryption';
-import { Folder } from '@/types';
+import { generateSalt, hashKey } from 'lib/encryption';
+import { Folder } from 'types';
 import { useMutation } from '@tanstack/react-query';
-import { getQueryClient } from '@/lib/get-query-client';
-import { createFolderApi } from '@/components/api';
+import { getQueryClient } from 'lib/get-query-client';
+import { createFolderApi } from 'components/api';
 
 interface FolderModalProps {
     onClose: () => void;

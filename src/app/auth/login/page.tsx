@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import AuthForm from '@/components/AuthForm';
+import { useAuth } from 'context/AuthContext';
+import AuthForm from 'components/AuthForm';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -15,9 +15,9 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (isAuthenticated) {
-          router.push('/dashboard');
+            router.push('/dashboard');
         }
-      }, [isAuthenticated, router]);
+    }, [isAuthenticated, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,11 +53,6 @@ export default function LoginPage() {
                         isLogin={true}
                     />
                 </div>
-            </div>
-
-            <div className="mt-4 text-center">
-                <span className="text-[var(--foreground)]">Don't have an account?</span>
-                <Link href="/auth/register" className="ml-2 text-blue-600 hover:underline">Register</Link>
             </div>
         </div>
     );

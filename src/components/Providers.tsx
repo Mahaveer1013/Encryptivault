@@ -2,10 +2,10 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '../context/AuthContext';
 import React from 'react';
-import { getQueryClient } from '@/lib/get-query-client';
-import { useTheme } from '@/context/ThemeContext';
+import { getQueryClient } from 'lib/get-query-client';
+import { useTheme } from 'context/ThemeContext';
 import Toast from './Toast';
-import { useToast } from '@/context/ToastContext';
+import { useToast } from 'context/ToastContext';
 
 export default function Providers({
     children,

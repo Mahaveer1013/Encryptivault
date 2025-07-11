@@ -1,4 +1,4 @@
-import { getDb } from '@/lib/db';
+import { getDb } from 'lib/db';
 import bcrypt from 'bcryptjs';
 
 async function addUser() {
@@ -6,7 +6,7 @@ async function addUser() {
         const email = process.env.USER_EMAIL;
         const password = process.env.PASSWORD;
         const jwtSecret = process.env.JWT_SECRET;
-        if( !email || !password || !jwtSecret) {
+        if (!email || !password || !jwtSecret) {
             console.error('Missing environment variables');
             return;
         }

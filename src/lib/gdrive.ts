@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import { Password, Folder } from '@/types';
+import { Password, Folder } from 'types';
 import { Readable } from 'stream';
 import { ObjectId } from 'mongodb';
 import { getDb } from './db';
@@ -50,7 +50,7 @@ export function getGoogleDriveClient() {
  * Store the password data inside "EncryptiVault/${folder.name}/$[password.site}.json"
  */
 export async function addPasswordToGoogleDrive(password: Password, folderId: string, userId: string) {
-    if(process.env.GOOGLE_DRIVE_BACKUP !== 'true') {
+    if (process.env.GOOGLE_DRIVE_BACKUP !== 'true') {
         console.log('Google Drive backup is disabled');
         return;
     }
@@ -143,7 +143,7 @@ export async function addPasswordToGoogleDrive(password: Password, folderId: str
  * Create a backup folder inside "EncryptiVault" and upload data.json
  */
 export async function createBackupFolder(folder: Folder) {
-    if(process.env.GOOGLE_DRIVE_BACKUP !== 'true') {
+    if (process.env.GOOGLE_DRIVE_BACKUP !== 'true') {
         console.log('Google Drive backup is disabled');
         return;
     }

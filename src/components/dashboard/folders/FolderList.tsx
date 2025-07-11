@@ -1,8 +1,8 @@
 import { FolderIcon } from '@heroicons/react/24/outline';
 import FolderCard from './FolderCard';
-import { Folder } from '@/types';
+import { Folder } from 'types';
 
-export default function FolderList({ folders }: {folders: Folder[]}) {
+export default function FolderList({ folders }: { folders: Folder[] }) {
 
     return (
         <>

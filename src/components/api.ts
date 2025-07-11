@@ -1,4 +1,4 @@
-import { Folder, Password, PasswordRequest } from "@/types";
+import { Folder, Password, PasswordRequest } from "types";
 
 export const getFoldersApi = async (): Promise<Folder[]> => {
     const response = await fetch('/api/folders');

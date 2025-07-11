@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import PasswordList from '@/components/dashboard/passwords/PasswordList';
-import PasswordModal from '@/components/dashboard/passwords/PasswordModal';
-import { useAuth } from '@/context/AuthContext';
+import PasswordList from 'components/dashboard/passwords/PasswordList';
+import PasswordModal from 'components/dashboard/passwords/PasswordModal';
+import { useAuth } from 'context/AuthContext';
 import { getFolderApi, getPasswordsApi } from '../../../components/api';
 import { useQuery } from '@tanstack/react-query';
-import { useToast } from '@/context/ToastContext';
-import { Folder, Password } from '@/types';
+import { useToast } from 'context/ToastContext';
+import { Folder, Password } from 'types';
 
 export default function FolderComponent({ folderId }: { folderId: string }) {
     const router = useRouter();
@@ -56,7 +56,7 @@ export default function FolderComponent({ folderId }: { folderId: string }) {
         );
     }
 
-    
+
 
     if (!folder) {
         setToast({

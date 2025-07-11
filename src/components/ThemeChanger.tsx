@@ -1,5 +1,5 @@
 'use client';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from 'context/ThemeContext';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
 export default function ThemeChanger() {

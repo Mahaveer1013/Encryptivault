@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/db';
+import { getDb } from 'lib/db';
 import { ObjectId } from 'mongodb';
 
 export async function DELETE(
@@ -10,7 +10,7 @@ export async function DELETE(
         const { id } = await params;
         const userId = request.headers.get('x-user-id')!;
 
-        if(!userId) {
+        if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
         }
 

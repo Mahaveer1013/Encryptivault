@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { encrypt, generateSalt, hashKey } from '@/lib/encryption';
-import { generateRandomPassword } from '@/lib/utils';
+import { encrypt, generateSalt, hashKey } from 'lib/encryption';
+import { generateRandomPassword } from 'lib/utils';
 import Link from 'next/link';
-import { Folder, PasswordRequest } from '@/types';
-import { createPasswordApi } from '@/components/api';
+import { Folder, PasswordRequest } from 'types';
+import { createPasswordApi } from 'components/api';
 
 interface PasswordModalProps {
     folder: Folder;
@@ -49,10 +49,10 @@ export default function PasswordModal({ folder, masterKey, onClose, onPasswordAd
             const hashedKey = hashKey(masterKey, folder.salt);
             const encryptedPassword = encrypt(password, hashedKey, iv);
             const passwordRequest: PasswordRequest = {
-                    site,
-                    username,
-                    encryptedPassword,
-                    iv,
+                site,
+                username,
+                encryptedPassword,
+                iv,
                 folder: folder._id,
             };
 
