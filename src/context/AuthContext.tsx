@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { logoutApi, loginApi, verifyApi } from '@/components/api'; // Adjust the import path as necessary
 
 interface AuthContextType {
     user: any;
@@ -10,7 +11,6 @@ interface AuthContextType {
     masterKey: string | null;
     setMasterKey: (key: string | null) => void;
     loading: boolean;
-    register: (email: string, password: string) => Promise<void>;
     masterKeySession: {
         addKey: (folderId: string, key: string) => void;
         removeKey: (folderId: string) => void;
@@ -69,20 +69,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         async function loadUser() {
             try {
                 setLoading(true);
-                const res = await fetch('/api/auth/verify-user', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                });
-
-                if (res.ok) {
-                    const userData = await res.json();
-                    setUser(userData.user);
-                } else {
+                const user = await verifyApi();
+                if (!user) {
                     logout(false);
+                    return;
                 }
+
+                setUser(user);
             } catch (error) {
                 console.error('Failed to verify token', error);
                 logout();
@@ -92,53 +85,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
 
         loadUser();
-    }, []);
-
-    const register = async (email: string, password: string) => {
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-            credentials: 'include',
-        });
-
-        if (!response.ok) {
-            throw new Error('Register failed');
-        }
-        router.push('/auth/verify-email');
-    };
+    }, [router]);
 
     const login = async (email: string, password: string, rememberMe: boolean) => {
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password, rememberMe }),
-            credentials: 'include',
-        });
-
-        if (!response.ok) {
-            throw new Error('Login failed');
+        try {
+            const user = await loginApi(email, password, rememberMe);
+            if (!user) {
+                throw new Error('Login failed');
+            }
+            localStorage.setItem('user', user.user); // Store email in localStorage
+            setUser(user);
+        } catch (error) {
+            console.error('Login failed', error);
+            throw error; // Re-throw the error to handle it in the component
         }
-
-        const { user } = await response.json();
-        console.log(user);
-
-        setUser(user);
     };
 
     const logout = async (redirect: boolean = true) => {
-        await fetch('/api/auth/logout', {
-            method: 'GET',
-            credentials: 'include',
-        });
         setUser(null);
         setMasterKey(null);
+        await logoutApi();
+        localStorage.removeItem('user'); // Clear the stored email from localStorage
         if (redirect) {
-            router.push('/auth/login');
+            router.push('/');
         }
     };
 
@@ -152,7 +121,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 masterKey,
                 setMasterKey,
                 loading,
-                register,
                 masterKeySession: keyFunctions,
             }}
         >

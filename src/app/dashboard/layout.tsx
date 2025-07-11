@@ -11,8 +11,7 @@ export default function DashboardLayout({
     children: ReactNode;
 }) {
     const router = useRouter();
-    const { isAuthenticated } = useAuth();
-    const { masterKeySession } = useAuth();
+    const { masterKeySession, isAuthenticated } = useAuth();
     useEffect(() => {
         if (!isAuthenticated) {
             router.push('/auth/login');

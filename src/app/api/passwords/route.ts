@@ -1,21 +1,16 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import jwt from 'jsonwebtoken';
 import { NextRequest } from 'next/server';
-import { cookies } from 'next/headers';
-import { getGoogleDriveClient } from '@/lib/gdrive';
-import { Password } from '@/types';
-import { ObjectId } from 'mongodb';
+import { addPasswordToGoogleDrive } from '@/lib/gdrive';
+
 
 export async function GET(request: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get('token')?.value;
-        if (!token) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        const userId = request.headers.get('x-user-id')!;
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string, email: string };
+        if(!userId) {
+            return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
+        }
 
         const { searchParams } = new URL(request.url);
         const folder = searchParams.get('folder');
@@ -27,7 +22,7 @@ export async function GET(request: NextRequest) {
         const db = await getDb();
         const passwords = await db
             .collection('passwords')
-            .find({ userId: decoded.userId, folder })
+            .find({ userId: userId, folder })
             .toArray();
 
         return NextResponse.json(passwords);
@@ -40,45 +35,13 @@ export async function GET(request: NextRequest) {
     }
 }
 
-const addPasswordToGoogleDrive = async (password: Password, folder: string, userId: string) => {
-    const drive = getGoogleDriveClient();
-    const db = await getDb();
-    const folderData = await db.collection('folders').findOne({ _id: new ObjectId(folder), userId });
-    if (!folderData) {
-        throw new Error('Folder not found');
-    }
-    const folderName = folderData.name;
-    const passwordData = {
-        site: password.site,
-        username: password.username,
-        encryptedPassword: password.encryptedPassword,
-        iv: password.iv,
-        folder: folderName,
-        hashedKey: folderData.hashedKey,
-    }
-    await drive.files.create({
-        requestBody: {
-            name: `${password.site}-${password.username}.json`,
-            parents: [folderName],
-            description: 'Password data',
-        },
-        media: {
-            mimeType: 'application/json',
-            body: JSON.stringify(passwordData),
-        },
-        fields: 'id',
-    });
-}
-
 export async function POST(request: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get('token')?.value;
-        if (!token) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        const userId = request.headers.get('x-user-id')!;
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string, email: string };
+        if(!userId) {
+            return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
+        }
 
         const { site, username, encryptedPassword, iv, folder } = await request.json();
 
@@ -89,11 +52,13 @@ export async function POST(request: NextRequest) {
             encryptedPassword,
             iv,
             folder,
-            userId: decoded.userId,
+            userId: userId,
             createdAt: new Date(),
         };
 
         const result = await db.collection('passwords').insertOne(password);
+
+        addPasswordToGoogleDrive({...password, _id:result.insertedId.toString()}, folder, userId);
 
         return NextResponse.json({
             _id: result.insertedId,

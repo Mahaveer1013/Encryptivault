@@ -54,6 +54,7 @@ export default function FolderCard({ folder }: { folder: any }) {
                     <input
                         type="password"
                         value={masterKeyInput}
+                        autoFocus={true}
                         onChange={(e) => setMasterKeyInput(e.target.value)}
                         placeholder="Enter master key"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-200"
@@ -87,7 +88,7 @@ export default function FolderCard({ folder }: { folder: any }) {
                     {isUnlocked ? (
                         <button
                             onClick={handleLock}
-                            className="text-sm text-[var(--foreground)] hover:text-[var(--background)] cursor-pointer p-2 rounded-full bg-green-500 hover:bg-green-600 transition"
+                            className="text-sm text-[var(--background)] cursor-pointer p-2 rounded-full bg-green-500 hover:bg-green-600 transition"
                             title="Lock folder"
                         >
                             <LockOpenIcon className="h-5 w-5" />
@@ -95,7 +96,7 @@ export default function FolderCard({ folder }: { folder: any }) {
                     ) : (
                         <button
                             onClick={() => setIsUnlocking(true)}
-                            className="text-sm text-[var(--foreground)] hover:text-[var(--background)] cursor-pointer p-2 rounded-full bg-red-500 hover:bg-red-600 transition"
+                            className="text-sm text-[var(--foreground)] cursor-pointer p-2 rounded-full bg-red-500 hover:bg-red-600 transition"
                             title="Unlock folder"
                         >
                             <LockClosedIcon className="h-5 w-5" />

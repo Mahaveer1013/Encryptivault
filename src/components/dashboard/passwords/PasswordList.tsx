@@ -4,7 +4,7 @@ import { EyeIcon, EyeSlashIcon, ClipboardDocumentIcon, TrashIcon } from '@heroic
 import { useState } from 'react';
 import { decrypt, hashKey } from '@/lib/encryption';
 import DeletePasswordModal from './DeletePasswordModal';
-import { deletePassword } from '@/components/api';
+import { deletePasswordApi } from '@/components/api';
 import { useToast } from '@/context/ToastContext';
 
 interface PasswordListProps {
@@ -51,7 +51,7 @@ export default function PasswordList({ passwords, masterKey, folderSalt, onPassw
         if (!passwordToDelete) return;
 
         try {
-            await deletePassword(passwordToDelete.id);
+            await deletePasswordApi(passwordToDelete.id);
 
             if (onPasswordDeleted) {
                 onPasswordDeleted(passwordToDelete.id);

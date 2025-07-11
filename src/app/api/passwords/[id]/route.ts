@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
 import { ObjectId } from 'mongodb';
 
 export async function DELETE(
@@ -10,13 +8,11 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params;
-        const cookieStore = await cookies();
-        const token = cookieStore.get('token')?.value;
-        if (!token) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        const userId = request.headers.get('x-user-id')!;
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+        if(!userId) {
+            return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
+        }
 
         // Parse the request body to get the deletion password
         const body = await request.json();
@@ -34,7 +30,7 @@ export async function DELETE(
         const db = await getDb();
         const result = await db.collection('passwords').deleteOne({
             _id: new ObjectId(id),
-            userId: decoded.userId,
+            userId,
         });
 
         if (result.deletedCount === 0) {

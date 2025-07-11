@@ -24,7 +24,7 @@ export default function LoginPage() {
         setError('');
         try {
             await login(email, password, rememberMe);
-            router.push('/auth/verify-email');
+            router.push('/dashboard');
         } catch (err) {
             setError('Invalid email or password');
         }

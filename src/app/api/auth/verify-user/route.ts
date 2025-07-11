@@ -9,7 +9,7 @@ export async function GET() {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 200 });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string, email: string };
@@ -20,7 +20,7 @@ export async function GET() {
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
-        { status: 401 }
+        { status: 200 }
       );
     }
 

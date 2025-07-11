@@ -5,7 +5,7 @@ import { encrypt, generateSalt, hashKey } from '@/lib/encryption';
 import { generateRandomPassword } from '@/lib/utils';
 import Link from 'next/link';
 import { Folder, PasswordRequest } from '@/types';
-import { createPassword } from '@/components/api';
+import { createPasswordApi } from '@/components/api';
 
 interface PasswordModalProps {
     folder: Folder;
@@ -56,7 +56,7 @@ export default function PasswordModal({ folder, masterKey, onClose, onPasswordAd
                 folder: folder._id,
             };
 
-            const response = await createPassword(passwordRequest);
+            const response = await createPasswordApi(passwordRequest);
             onPasswordAdded(response);
         } catch (err) {
             setError('An unexpected error occurred');

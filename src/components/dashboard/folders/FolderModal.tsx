@@ -5,29 +5,13 @@ import { generateSalt, hashKey } from '@/lib/encryption';
 import { Folder } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/get-query-client';
+import { createFolderApi } from '@/components/api';
 
 interface FolderModalProps {
     onClose: () => void;
     onFolderCreated: (folder: Folder) => void;
 }
 
-async function createFolder({ name, masterKey }: { name: string; masterKey: string }) {
-    const salt = generateSalt();
-    const hashedKey = hashKey(masterKey, salt);
-
-    const response = await fetch('/api/folders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, salt, hashedKey }),
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create folder');
-    }
-
-    return response.json();
-}
 
 export default function FolderModal({ onClose, onFolderCreated }: FolderModalProps) {
     const [name, setName] = useState('');
@@ -37,9 +21,12 @@ export default function FolderModal({ onClose, onFolderCreated }: FolderModalPro
     const queryClient = getQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: createFolder,
+        mutationFn: ({ name, masterKey }: { name: string; masterKey: string }) => {
+            const salt = generateSalt();
+            const hashedKey = hashKey(masterKey, salt);
+            return createFolderApi(name, salt, hashedKey);
+        },
         onSuccess: (newFolder) => {
-            // Invalidate or refetch the folders list
             queryClient.invalidateQueries({ queryKey: ['folders'] });
             onFolderCreated(newFolder);
         },

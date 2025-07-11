@@ -5,31 +5,31 @@ import { useRouter } from 'next/navigation';
 import PasswordList from '@/components/dashboard/passwords/PasswordList';
 import PasswordModal from '@/components/dashboard/passwords/PasswordModal';
 import { useAuth } from '@/context/AuthContext';
-import { getFolder, getPasswords } from '../../../components/api';
+import { getFolderApi, getPasswordsApi } from '../../../components/api';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/context/ToastContext';
 import { Folder, Password } from '@/types';
 
-export default function Folder({ folderId }: { folderId: string }) {
+export default function FolderComponent({ folderId }: { folderId: string }) {
     const router = useRouter();
     const { masterKeySession } = useAuth();
     const [passwords, setPasswords] = useState<Password[]>([]);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const { setToast } = useToast();
-    const { isLoading: isPasswordsLoading } = useQuery({
+    const { isLoading: isPasswordsLoading, isError, error } = useQuery({
         queryKey: ['passwords', folderId],
-        queryFn: () => getPasswords(folderId).then(passwords => {
+        queryFn: () => getPasswordsApi(folderId).then(passwords => {
             setPasswords(passwords);
             return passwords;
         })
     });
 
     useEffect(() => {
-        const fetchPasswords = async () => {
-            const passwords = await getPasswords(folderId);
+        const getPasswords = async () => {
+            const passwords = await getPasswordsApi(folderId);
             setPasswords(passwords);
         };
-        fetchPasswords();
+        getPasswords();
     }, []);
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function Folder({ folderId }: { folderId: string }) {
 
     const { data: folder, isLoading: isFolderLoading } = useQuery({
         queryKey: ['folder', folderId],
-        queryFn: () => getFolder(folderId)
+        queryFn: () => getFolderApi(folderId)
     });
 
     const handleAddPassword = (newPassword: any) => {
@@ -55,6 +55,8 @@ export default function Folder({ folderId }: { folderId: string }) {
             </div>
         );
     }
+
+    
 
     if (!folder) {
         setToast({

@@ -34,14 +34,16 @@ export async function POST(request: Request) {
         if (rememberMe) {
             cookieStore.set('token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
+                secure: process.env.NODE_ENV !== "development",
+                sameSite: 'strict',
                 maxAge: 30 * 24 * 60 * 60, // 30 days
                 expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
             });
         } else {
             cookieStore.set('token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
+                secure: process.env.NODE_ENV !== "development",
+                sameSite: 'strict',
                 // No maxAge or expires for session cookie
             });
         }

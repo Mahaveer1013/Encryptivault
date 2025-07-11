@@ -4,16 +4,41 @@ import { useState } from 'react';
 import FolderList from '../../components/dashboard/folders/FolderList';
 import FolderModal from '../../components/dashboard/folders/FolderModal';
 import { useQuery } from '@tanstack/react-query';
-import { getFolders } from '../../components/api';
+import { getFoldersApi } from '../../components/api';
 import { getQueryClient } from '@/lib/get-query-client';
+import { useToast } from '@/context/ToastContext';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Dashboard() {
     const [showFolderModal, setShowFolderModal] = useState(false);
     const queryClient = getQueryClient();
-    const { data: folders } = useQuery({
+    const { setToast } = useToast();
+    const { logout } = useAuth();
+    const { data: folders, isLoading, isError, error } = useQuery({
         queryKey: ['folders'],
-        queryFn: getFolders,
+        queryFn: getFoldersApi,
     });
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+                <div className="text-[var(--foreground)]">Loading...</div>
+            </div>
+        );
+    }
+
+    if (isError) {
+        setToast({
+            type: 'error',
+            message: error instanceof Error ? error.message : 'Failed to load folders',
+            onClose: logout
+        })
+        return (
+            <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+                <div className="text-[var(--foreground)]">Error loading folders</div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[var(--background)] py-8 px-1 sm:px-4 md:px-2">
