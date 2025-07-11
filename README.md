@@ -1,85 +1,182 @@
 # PassiVault - Secure Password Manager
 
-A secure password manager built with Next.js, featuring client-side encryption and a deletion password system for enhanced security.
+A secure, zero-knowledge password manager built with Next.js, featuring client-side encryption, Google Drive backup, and robust deletion protection.
+
+---
 
 ## Features
 
-- 🔐 Client-side encryption for maximum security
-- 📁 Folder-based organization
-- 🗑️ Deletion password protection
-- 👤 User authentication
-- 📧 Email verification
-- 🎨 Modern, responsive UI
+- 🔐 **Client-side encryption**: Passwords are encrypted before leaving your device.
+- 📁 **Folder-based organization**: Organize passwords in folders.
+- 🗑️ **Deletion password protection**: Prevent accidental or unauthorized deletions.
+- ☁️ **Google Drive backup**: Automatic, redundant backups for disaster recovery.
+- 👤 **User authentication**: JWT-based login, email verification.
+- 🎨 **Simple UI**: Responsive, themeable interface.
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- MongoDB instance
-- Email service (for verification)
+- **Node.js** 18+
+- **MongoDB** (local or remote)
+- **Google Cloud account** (for Drive backup)
+- **NPM**
 
-### Environment Variables
+---
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/mahaveer1013/encryptivault.git
+cd encryptivault
+```
+
+---
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 3. Environment Variables
 
 Create a `.env` file in the root directory with the following variables:
 
 ```env
 # Database
-MONGODB_URI=mongodb://localhost:27017/Encryptivault
+MONGODB_URI = ""            // Atlas URI
 
 # JWT Secret
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_SECRET = "<secure random string>"
 
-# Email Configuration
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your-app-password
+# Deletion Password
+DELETION_PASSWORD = "<required while deleting a password>"
+DELETION_PASSWORD_FOR_FOLDER = "<required while deleting a folder>"
 
-# Deletion Password (required for deleting passwords)
-DELETION_PASSWORD=your-deletion-password-change-this-in-production
+# Google Drive Backup
+GOOGLE_DRIVE_BACKUP = "true"  // true or false
+GOOGLE_DRIVE_CLIENT_ID = "<refer drive documentation>"
+GOOGLE_DRIVE_CLIENT_SECRET = "<refer drive documentation>"
+GOOGLE_DRIVE_REFRESH_TOKEN = "<refer drive documentation>"
 ```
 
-### Installation
+**Note:**
+- `DELETION_PASSWORD` is required to delete individual passwords.
+- `DELETION_PASSWORD_FOR_FOLDER` is required to delete entire folders.
+- If you do not want Google Drive backup, set `GOOGLE_DRIVE_BACKUP=false` or omit the related variables.
 
-1. Clone the repository
-2. Install dependencies:
+---
+
+### 4. Google Drive Backup Setup (Optional but Recommended)
+
+#### a. Install Google APIs dependency (already included, but for reference):
+
 ```bash
-npm install
+npm install googleapis
 ```
 
-3. Set up your environment variables
-4. Run the development server:
+#### b. Set up Google Cloud Project
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one.
+3. Enable the **Google Drive API**.
+4. Create OAuth 2.0 credentials (Web application).
+5. Add authorized redirect URI:
+   - `http://localhost:3000/oauth2callback`
+
+#### c. Get a Refresh Token
+
+1. Fill in `GOOGLE_DRIVE_CLIENT_ID` and `GOOGLE_DRIVE_CLIENT_SECRET` in your `.env`.
+2. Run the script to get your refresh token:
+
+```bash
+node src/scripts/get-refresh-token.js
+```
+
+3. Follow the prompts, authorize, and paste the code.
+4. Copy the refresh token output and add it to your `.env` as `GOOGLE_DRIVE_REFRESH_TOKEN`.
+
+---
+
+### 5. Add Your First User
+
+There is **no public registration endpoint**. To add an initial user:
+
+1. Add these variables to your `.env` (temporarily):
+
+```env
+USER_EMAIL=your@email.com
+PASSWORD=yourpassword
+```
+
+2. Run:
+
+```bash
+node src/scripts/add-user.js
+```
+
+3. Remove `USER_EMAIL` and `PASSWORD` from your `.env` after the user is created.
+
+---
+
+### 6. Start the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
 
 ## Security Features
 
-### Deletion Password
-When deleting passwords, users must provide a deletion password that matches the `DELETION_PASSWORD` environment variable. This adds an extra layer of protection against accidental or unauthorized deletions.
+- **Client-side encryption**: All sensitive data is encrypted before being sent to the server.
+- **Deletion password**: Required for deleting passwords and folders (set via environment variables).
+- **Google Drive backup**: All changes are redundantly backed up (if enabled).
+- **JWT authentication**: Secure, stateless sessions.
+- **Email verification**: Prevents unauthorized access.
 
-### Client-Side Encryption
-All passwords are encrypted on the client side before being stored in the database, ensuring that even if the database is compromised, the passwords remain secure.
+---
 
-## Learn More
+## Google Drive Backup Details
 
-To learn more about Next.js, take a look at the following resources:
+- **Automatic**: Every create/delete triggers a backup.
+- **Redundant**: MongoDB is primary, Google Drive is backup.
+- **Versioned**: Each backup is timestamped.
+- **Recovery**: Restore from Google Drive if MongoDB fails.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Endpoints
 
-## Deploy on Vercel
+- `/api/auth/login` – Login
+- `/api/auth/logout` – Logout
+- `/api/auth/verify-user` – Verify session
+- `/api/folders` – CRUD for folders
+- `/api/passwords` – CRUD for passwords
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Troubleshooting
+
+- **MongoDB connection errors**: Check `MONGODB_URI`.
+- **Google Drive errors**: Check all Google Drive env vars and refresh token.
+- **User not found**: Ensure you added a user via the script.
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+## License
+
+MIT
