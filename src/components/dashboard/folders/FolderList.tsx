@@ -1,25 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { FolderIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '@/context/AuthContext';
 import FolderCard from './FolderCard';
+import { Folder } from '@/types';
 
 interface FolderListProps {
-    folders: any[];
+    folders: Folder[];
 }
 
 export default function FolderList({ folders }: FolderListProps) {
-    const [unlockingFolder, setUnlockingFolder] = useState<string | null>(null);
-    const [masterKeyInput, setMasterKeyInput] = useState('');
-    const { masterKeySession } = useAuth();
-
-    const handleUnlockFolder = (folderId: string) => {
-        setUnlockingFolder(folderId);
-        setMasterKeyInput('');
-    };
-
     return (
         <>
             {folders.length === 0 ? (

@@ -1,6 +1,9 @@
-import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+'use client';
+import { useTheme } from '@/context/ThemeContext';
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
-export default function ThemeChanger({ theme, toggleTheme }: { theme: string, toggleTheme: () => void }) {
+export default function ThemeChanger() {
+    const { theme, toggleTheme } = useTheme();
     return (
         <button
             onClick={toggleTheme}

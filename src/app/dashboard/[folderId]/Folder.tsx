@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { getFolder, getPasswords } from '../../../components/api';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/context/ToastContext';
-import { Password } from '@/types';
+import { Folder, Password } from '@/types';
 
 export default function Folder({ folderId }: { folderId: string }) {
     const router = useRouter();
@@ -31,6 +31,12 @@ export default function Folder({ folderId }: { folderId: string }) {
         };
         fetchPasswords();
     }, []);
+
+    useEffect(() => {
+        if (!masterKeySession.hasKey(folderId)) {
+            router.push('/dashboard');
+        }
+    }, [masterKeySession, folderId, router]);
 
     const { data: folder, isLoading: isFolderLoading } = useQuery({
         queryKey: ['folder', folderId],
@@ -58,17 +64,11 @@ export default function Folder({ folderId }: { folderId: string }) {
         });
     }
 
-    useEffect(() => {
-        if (!masterKeySession.hasKey(folderId)) {
-            router.push('/dashboard');
-        }
-    }, [masterKeySession, folderId, router]);
-
     return (
         <div className="px-2 sm:px-4 md:px-8 max-w-4xl mx-auto w-full">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4 sm:gap-0">
                 <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-[var(--foreground)] break-words max-w-full">{folder.name}</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-[var(--foreground)] break-words max-w-full">{folder?.name}</h2>
                     <p className="text-[var(--foreground)] text-sm sm:text-base">
                         {passwords.length} {passwords.length === 1 ? 'password' : 'passwords'}
                     </p>
@@ -96,7 +96,7 @@ export default function Folder({ folderId }: { folderId: string }) {
                 <PasswordList
                     passwords={passwords}
                     masterKey={masterKeySession.getKey(folderId) || ''}
-                    folderSalt={folder.salt}
+                    folderSalt={folder?.salt || ''}
                     onPasswordDeleted={(passwordId: string) => {
                         setPasswords(passwords.filter(p => p._id !== passwordId));
                     }}
@@ -105,7 +105,7 @@ export default function Folder({ folderId }: { folderId: string }) {
 
             {showPasswordModal && (
                 <PasswordModal
-                    folder={folder}
+                    folder={folder as Folder}
                     masterKey={masterKeySession.getKey(folderId) || ''}
                     onClose={() => setShowPasswordModal(false)}
                     onPasswordAdded={handleAddPassword}

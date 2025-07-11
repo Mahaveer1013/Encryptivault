@@ -25,7 +25,7 @@ Create a `.env` file in the root directory with the following variables:
 
 ```env
 # Database
-MONGODB_URI=mongodb://localhost:27017/passivault
+MONGODB_URI=mongodb://localhost:27017/Encryptivault
 
 # JWT Secret
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production

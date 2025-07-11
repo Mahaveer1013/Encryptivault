@@ -1,7 +1,6 @@
 'use client';
-import { createContext, RefObject, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import MasterKey from './Masterkey';
 
 interface AuthContextType {
     user: any;
@@ -12,7 +11,13 @@ interface AuthContextType {
     setMasterKey: (key: string | null) => void;
     loading: boolean;
     register: (email: string, password: string) => Promise<void>;
-    masterKeySession: MasterKey;
+    masterKeySession: {
+        addKey: (folderId: string, key: string) => void;
+        removeKey: (folderId: string) => void;
+        hasKey: (folderId: string) => boolean;
+        getKey: (folderId: string) => string | undefined;
+        clearKeys: () => void;
+    };
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -21,8 +26,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<any>(null);
     const [masterKey, setMasterKey] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
-    const masterKeySession = useRef<MasterKey>(new MasterKey());
+    const [masterKeySession, setMasterKeySession] = useState<Map<string, string>>(new Map());
     const router = useRouter();
+
+    const addKey = (folderId: string, key: string) => {
+        setMasterKeySession((prev) => {
+            const newMap = new Map(prev);
+            newMap.set(folderId, key);
+            return newMap;
+        });
+    };
+
+    const removeKey = (folderId: string) => {
+        setMasterKeySession((prev) => {
+            const newMap = new Map(prev);
+            newMap.delete(folderId);
+            return newMap;
+        });
+    };
+
+    const hasKey = (folderId: string) => {
+        return masterKeySession.has(folderId);
+    };
+
+    const getKey = (folderId: string) => {
+        return masterKeySession.get(folderId);
+    };
+
+    const clearKeys = () => {
+        setMasterKeySession(new Map());
+    };
+
+    const keyFunctions = {
+        addKey,
+        removeKey,
+        hasKey,
+        getKey,
+        clearKeys,
+    };
 
     useEffect(() => {
         async function loadUser() {
@@ -84,6 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
 
         const { user } = await response.json();
+        console.log(user);
 
         setUser(user);
     };
@@ -111,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 setMasterKey,
                 loading,
                 register,
-                masterKeySession: masterKeySession.current,
+                masterKeySession: keyFunctions,
             }}
         >
             {children}

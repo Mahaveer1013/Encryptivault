@@ -7,11 +7,12 @@ import nodemailer from 'nodemailer';
 const confirmtionLinkHtml = (token: string) => {
     return `
     <p>Click the link to verify your email:</p>
-    <a href="http://localhost:3000/verify-email?token=${token}">Verify email</a>
+    <a href="http://localhost:3000/api/auth/verify-email?token=${token}">Verify email</a>
   `;
 };
 
 export async function POST(request: Request) {
+    // return NextResponse.redirect(new URL('https://github.com/Mahaveer1013/Encryptivault'));
     try {
         const { email, password }: { email: string, password: string } = await request.json();
         const db = await getDb();
