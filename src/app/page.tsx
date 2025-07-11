@@ -91,7 +91,7 @@ export default async function HomePage() {
                     <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                         <div className="rounded-md shadow">
                             <Link
-                                href="/auth/register"
+                                href="https://github.com/Mahaveer1013/Encryptivault/blob/master/README.md"
                                 className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                             >
                                 Get Started
@@ -108,7 +108,61 @@ export default async function HomePage() {
                     </div>
                 </div>
 
-                {/* Features Grid */}
+                {/* About Section */}
+                <section className="mt-16 max-w-3xl mx-auto text-center">
+                    <h2 className="text-2xl font-bold text-blue-600 mb-2">About SecureVault</h2>
+                    <p className="text-[var(--foreground)] text-base md:text-lg">
+                        SecureVault is an open-source, privacy-first password manager designed for individuals and teams who value security and control. With zero-knowledge architecture and end-to-end encryption, only you can access your data. Your master password and secrets never leave your device.
+                    </p>
+                </section>
+
+                {/* How It Works Section */}
+                <section className="mt-16 max-w-5xl mx-auto">
+                    <h2 className="text-2xl font-bold text-blue-600 text-center mb-8">How It Works</h2>
+                    <div className="grid gap-8 md:grid-cols-3">
+                        <div className="bg-[var(--card-bg)] p-6 rounded-lg shadow flex flex-col items-center">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </div>
+                            <h3 className="text-lg font-medium text-[var(--foreground)]">Client-Side Encryption</h3>
+                            <p className="mt-2 text-base text-[var(--foreground)] text-center">All your passwords are encrypted on your device before being stored or synced. Only you hold the decryption key.</p>
+                        </div>
+                        <div className="bg-[var(--card-bg)] p-6 rounded-lg shadow flex flex-col items-center">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            </div>
+                            <h3 className="text-lg font-medium text-[var(--foreground)]">Zero-Knowledge Proof</h3>
+                            <p className="mt-2 text-base text-[var(--foreground)] text-center">We never store or transmit your master password. Only you can decrypt your vault, ensuring maximum privacy.</p>
+                        </div>
+                        <div className="bg-[var(--card-bg)] p-6 rounded-lg shadow flex flex-col items-center">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>
+                            </div>
+                            <h3 className="text-lg font-medium text-[var(--foreground)]">Cross-Platform Sync</h3>
+                            <p className="mt-2 text-base text-[var(--foreground)] text-center">Access your passwords securely from any device, with end-to-end encryption always enforced.</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Tech Stack & Open Source Section */}
+                <section className="mt-16 max-w-4xl mx-auto text-center">
+                    <h2 className="text-2xl font-bold text-blue-600 mb-2">Open Source & Tech Stack</h2>
+                    <p className="text-[var(--foreground)] text-base md:text-lg mb-4">
+                        SecureVault is fully open source and welcomes contributions! Built with Next.js, MongoDB, Tailwind CSS, and modern cryptography libraries.
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-4 mt-4">
+                        <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Next.js</span>
+                        <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">MongoDB</span>
+                        <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Tailwind CSS</span>
+                        <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">TypeScript</span>
+                        <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Crypto</span>
+                    </div>
+                    <div className="mt-6">
+                        <Link href="https://github.com/Mahaveer1013/Encryptivault" className="inline-block px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">View on GitHub</Link>
+                    </div>
+                </section>
+
+                {/* Features Grid (moved below for more clarity) */}
                 <div className="mt-16 grid gap-8 md:grid-cols-3">
                     <div className="bg-[var(--card-bg)] p-6 rounded-lg shadow">
                         <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
@@ -146,6 +200,19 @@ export default async function HomePage() {
                         </p>
                     </div>
                 </div>
+
+                {/* Get Started for Developers Section */}
+                <section className="mt-16 max-w-3xl mx-auto text-center">
+                    <h2 className="text-2xl font-bold text-blue-600 mb-2">Get Started as a Developer</h2>
+                    <p className="text-[var(--foreground)] text-base md:text-lg mb-4">
+                        Want to contribute or self-host? Check out our documentation and join the community!
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                        <Link href="https://github.com/Mahaveer1013/Encryptivault/blob/master/README.md" className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition">Read the Docs</Link>
+                        <Link href="https://github.com/Mahaveer1013/Encryptivault/issues" className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md font-medium hover:bg-gray-300 transition">Report an Issue</Link>
+                        <Link href="https://github.com/Mahaveer1013/Encryptivault/pulls" className="px-6 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition">Contribute</Link>
+                    </div>
+                </section>
             </main>
 
             {/* Footer */}

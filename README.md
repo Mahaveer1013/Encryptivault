@@ -163,6 +163,38 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
+## Deployment on Vercel
+
+You can easily deploy PassiVault to [Vercel](https://vercel.com/):
+
+### 1. Set Environment Variables in Vercel
+
+- Go to your project in the [Vercel Dashboard](https://vercel.com/dashboard).
+- Navigate to **Settings > Environment Variables**.
+- Add all the environment variables listed in the ".env" section above (e.g., `MONGODB_URI`, `JWT_SECRET`, `DELETION_PASSWORD`, etc.).
+- Make sure to set them for the correct environment (Production, Preview, Development) as needed.
+
+### 2. MongoDB Atlas Network Access
+
+- If you are using MongoDB Atlas, you must allow Vercel to access your database:
+  - Go to your [MongoDB Atlas dashboard](https://cloud.mongodb.com/).
+  - Navigate to **Network Access**.
+  - Add an IP address rule:
+    - To allow public access (not recommended for production), add `0.0.0.0/0`.
+    - For better security, restrict access to Vercel's IP ranges (see [Vercel IP documentation](https://vercel.com/docs/edge-network/regions#vercel-ip-addresses)).
+
+### 3. Deploy
+
+- Push your code to GitHub/GitLab/Bitbucket and import the repository into Vercel.
+- Vercel will automatically detect the Next.js app and deploy it.
+
+**Note:**
+- Ensure all required environment variables are set in Vercel before deploying.
+- For Google Drive backup, make sure the credentials and refresh token are valid and present in the environment variables.
+- After deployment, test your app to confirm database and backup connectivity.
+
+---
+
 ## Troubleshooting
 
 - **MongoDB connection errors**: Check `MONGODB_URI`.
