@@ -38,11 +38,6 @@ export default async function HomePage() {
         user = await db.collection('users').findOne({ _id: new ObjectId(decoded.userId) });
     }
 
-    // If user is already logged in, redirect to dashboard
-    if (token && user && user.isVerified) {
-        redirect('/dashboard');
-    }
-
     return (
         <div className="min-h-screen bg-[var(--background)]">
             {/* Navigation */}

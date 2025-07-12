@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const MAX_REQUESTS = 15;
+const MAX_REQUESTS = 30;
 const ipMap = new Map<string, { count: number; lastRequest: number }>();
 
 function getClientIp(request: NextRequest): string {

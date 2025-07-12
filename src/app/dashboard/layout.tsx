@@ -11,12 +11,22 @@ export default function DashboardLayout({
     children: ReactNode;
 }) {
     const router = useRouter();
-    const { masterKeySession, isAuthenticated } = useAuth();
+    const { masterKeySession, isAuthenticated, userLoading } = useAuth();
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!isAuthenticated && !userLoading) {
             router.push('/auth/login');
         }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, router, userLoading]);
+
+    if (userLoading) {
+        return <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-center items-center h-screen">
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                </div>
+            </div>
+        </div>;
+    }
 
     return (
         <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">

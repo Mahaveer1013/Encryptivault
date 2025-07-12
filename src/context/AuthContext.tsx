@@ -8,6 +8,7 @@ interface AuthContextType {
     login: (email: string, password: string, rememberMe: boolean) => Promise<void>;
     logout: () => Promise<void>;
     isAuthenticated: boolean;
+    userLoading: boolean;
     masterKey: string | null;
     setMasterKey: (key: string | null) => void;
     loading: boolean;
@@ -118,6 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 login,
                 logout,
                 isAuthenticated: !!user,
+                userLoading: loading,
                 masterKey,
                 setMasterKey,
                 loading,

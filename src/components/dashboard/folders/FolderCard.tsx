@@ -17,6 +17,7 @@ export default function FolderCard({ folder, onFolderDeleted }: { folder: any; o
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const router = useRouter();
     const { setToast } = useToast();
+    const [isViewing, setIsViewing] = useState(false);
 
     useEffect(() => {
         setIsUnlocked(masterKeySession.hasKey(folder._id));
@@ -26,6 +27,7 @@ export default function FolderCard({ folder, onFolderDeleted }: { folder: any; o
         if (isUnlocked) {
             router.push(`/dashboard/${folder._id}`);
         } else {
+            setIsViewing(true);
             setIsUnlocking(true);
         }
     };
@@ -38,11 +40,15 @@ export default function FolderCard({ folder, onFolderDeleted }: { folder: any; o
             setIsUnlocking(false);
             setMasterKeyInput('');
         }
+        if (isViewing) {
+            router.push(`/dashboard/${folder._id}`);
+        }
     };
 
     const handleLock = () => {
         masterKeySession.removeKey(folder._id);
         setIsUnlocked(false);
+        setIsViewing(false);
     };
 
     const handleDelete = async (deletionPassword: string) => {
