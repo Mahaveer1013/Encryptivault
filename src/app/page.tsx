@@ -99,7 +99,7 @@ export default async function HomePage() {
                         </div>
                         <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
                             <Link
-                                href="/features"
+                                href="/workflow"
                                 className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
                             >
                                 Learn More
