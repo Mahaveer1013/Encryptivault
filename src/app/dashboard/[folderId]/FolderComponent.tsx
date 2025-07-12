@@ -6,7 +6,7 @@ import PasswordList from 'components/dashboard/passwords/PasswordList';
 import PasswordModal from 'components/dashboard/passwords/PasswordModal';
 import { useAuth } from 'context/AuthContext';
 import { getFolderApi, getPasswordsApi } from '../../../components/api';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'context/ToastContext';
 import { Folder, Password } from 'types';
 
@@ -16,6 +16,7 @@ export default function FolderComponent({ folderId }: { folderId: string }) {
     const [passwords, setPasswords] = useState<Password[]>([]);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const { setToast } = useToast();
+    const queryClient = useQueryClient();
     const { isLoading: isPasswordsLoading, isError, error } = useQuery({
         queryKey: ['passwords', folderId],
         queryFn: () => getPasswordsApi(folderId).then(passwords => {
@@ -46,6 +47,13 @@ export default function FolderComponent({ folderId }: { folderId: string }) {
     const handleAddPassword = (newPassword: any) => {
         setPasswords([...passwords, newPassword]);
         setShowPasswordModal(false);
+    };
+
+    const handlePasswordDeleted = (passwordId: string) => {
+        queryClient.setQueryData(['passwords', folderId], (oldPasswords: Password[] | undefined) =>
+            oldPasswords?.filter(password => password._id !== passwordId) || []
+        );
+        setPasswords(passwords.filter(p => p._id !== passwordId));
     };
 
     if (isPasswordsLoading || isFolderLoading) {
@@ -99,9 +107,7 @@ export default function FolderComponent({ folderId }: { folderId: string }) {
                     passwords={passwords}
                     masterKey={masterKeySession.getKey(folderId) || ''}
                     folderSalt={folder?.salt || ''}
-                    onPasswordDeleted={(passwordId: string) => {
-                        setPasswords(passwords.filter(p => p._id !== passwordId));
-                    }}
+                    onPasswordDeleted={handlePasswordDeleted}
                 />
             </div>
 

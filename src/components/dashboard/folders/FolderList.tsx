@@ -2,7 +2,7 @@ import { FolderIcon } from '@heroicons/react/24/outline';
 import FolderCard from './FolderCard';
 import { Folder } from 'types';
 
-export default function FolderList({ folders }: { folders: Folder[] }) {
+export default function FolderList({ folders, onFolderDeleted }: { folders: Folder[]; onFolderDeleted?: (folderId: string) => void }) {
 
     return (
         <>
@@ -14,7 +14,7 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {folders && folders.map((folder) => (
-                        <FolderCard key={folder._id} folder={folder} />
+                        <FolderCard key={folder._id} folder={folder} onFolderDeleted={onFolderDeleted} />
                     ))}
                 </div>
             )}

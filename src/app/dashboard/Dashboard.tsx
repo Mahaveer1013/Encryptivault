@@ -8,6 +8,7 @@ import { getFoldersApi } from '../../components/api';
 import { getQueryClient } from 'lib/get-query-client';
 import { useToast } from 'context/ToastContext';
 import { useAuth } from 'context/AuthContext';
+import { Folder } from 'types';
 
 export default function Dashboard() {
     const [showFolderModal, setShowFolderModal] = useState(false);
@@ -18,6 +19,12 @@ export default function Dashboard() {
         queryKey: ['folders'],
         queryFn: getFoldersApi,
     });
+
+    const handleFolderDeleted = (folderId: string) => {
+        queryClient.setQueryData(['folders'], (oldFolders: Folder[] | undefined) =>
+            oldFolders?.filter(folder => folder._id !== folderId) || []
+        );
+    };
 
     if (isLoading) {
         return (
@@ -55,6 +62,7 @@ export default function Dashboard() {
 
                 <FolderList
                     folders={folders || []}
+                    onFolderDeleted={handleFolderDeleted}
                 />
 
                 {showFolderModal && (

@@ -8,9 +8,15 @@ interface DeletePasswordModalProps {
     onClose: () => void;
     onConfirm: (deletionPassword: string) => void;
     siteName: string;
+    modalType: ModalType;
 }
 
-export default function DeletePasswordModal({ isOpen, onClose, onConfirm, siteName }: DeletePasswordModalProps) {
+export enum ModalType {
+    DeletePassword = 'password',
+    DeleteFolder = 'folder',
+}
+
+export default function DeletePasswordModal({ isOpen, onClose, onConfirm, siteName, modalType }: DeletePasswordModalProps) {
     const [deletionPassword, setDeletionPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -31,26 +37,26 @@ export default function DeletePasswordModal({ isOpen, onClose, onConfirm, siteNa
 
     return (
         <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="bg-[var(--background)] rounded-lg p-6 w-full max-w-md mx-4">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-medium text-gray-900">Delete Password</h3>
+                    <h3 className="text-lg font-medium text-[var(--text)]">Delete {modalType === ModalType.DeletePassword ? 'Password' : 'Folder'}</h3>
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-500"
+                        className="text-[var(--text)] hover:text-[var(--text-hover)]"
                     >
                         <XMarkIcon className="h-6 w-6" />
                     </button>
                 </div>
 
-                <p className="text-sm text-gray-600 mb-4">
-                    Are you sure you want to delete the password for <strong>{siteName}</strong>?
+                <p className="text-sm text-[var(--text)] mb-4">
+                    Are you sure you want to delete the {modalType === ModalType.DeletePassword ? 'password' : 'folder'} for <strong>{siteName}</strong>?
                     This action cannot be undone.
                 </p>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label htmlFor="deletionPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                            Deletion Password
+                        <label htmlFor="deletionPassword" className="block text-sm font-medium text-[var(--text)] mb-2">
+                            Deletion {modalType === ModalType.DeletePassword ? 'Password' : 'Folder'}
                         </label>
                         <input
                             type="password"
@@ -67,17 +73,17 @@ export default function DeletePasswordModal({ isOpen, onClose, onConfirm, siteNa
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            className="px-4 py-2 text-sm font-medium text-[var(--text)] bg-[var(--background)] border border-[var(--border)] rounded-md hover:bg-[var(--background-hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--border)]"
                             disabled={isLoading}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
+                            className="px-4 py-2 text-sm font-medium text-white cursor-pointer bg-red-700 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
                             disabled={isLoading || !deletionPassword.trim()}
                         >
-                            {isLoading ? 'Deleting...' : 'Delete Password'}
+                            {isLoading ? 'Deleting...' : `Delete ${modalType === ModalType.DeletePassword ? 'Password' : 'Folder'}`}
                         </button>
                     </div>
                 </form>

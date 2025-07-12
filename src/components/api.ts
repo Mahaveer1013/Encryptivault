@@ -31,6 +31,18 @@ export const createFolderApi = async (name: string, salt: string, hashedKey: str
     return response.json() as Promise<Folder>;
 };
 
+export const deleteFolderApi = async (folderId: string, deletionPassword: string): Promise<void> => {
+    const response = await fetch(`/api/folders/${folderId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deletionPassword }),
+    });
+    if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Failed to delete folder');
+    }
+};
+
 export const getPasswordsApi = async (folderId: string): Promise<Password[]> => {
     const response = await fetch(`/api/passwords?folder=${folderId}`);
     if (!response.ok) {
@@ -53,9 +65,11 @@ export const createPasswordApi = async (password: PasswordRequest): Promise<Pass
     return response.json() as Promise<Password>;
 };
 
-export const deletePasswordApi = async (passwordId: string): Promise<Password> => {
+export const deletePasswordApi = async (passwordId: string, deletionPassword: string): Promise<Password> => {
     const response = await fetch(`/api/passwords/${passwordId}`, {
         method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deletionPassword }),
     });
     if (!response.ok) {
         const errData = await response.json();
