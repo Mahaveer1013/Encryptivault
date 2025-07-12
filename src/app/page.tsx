@@ -55,7 +55,7 @@ export default async function HomePage() {
                             </svg>
 
                             <span className="ml-2 text-xl font-semibold text-[var(--foreground)]">
-                                SecureVault
+                                EncryptiVault
                             </span>
                         </div>
                         <div className="flex items-center space-x-4">
@@ -110,9 +110,9 @@ export default async function HomePage() {
 
                 {/* About Section */}
                 <section className="mt-16 max-w-3xl mx-auto text-center">
-                    <h2 className="text-2xl font-bold text-blue-600 mb-2">About SecureVault</h2>
+                    <h2 className="text-2xl font-bold text-blue-600 mb-2">About EncryptiVault</h2>
                     <p className="text-[var(--foreground)] text-base md:text-lg">
-                        SecureVault is an open-source, privacy-first password manager designed for individuals and teams who value security and control. With zero-knowledge architecture and end-to-end encryption, only you can access your data. Your master password and secrets never leave your device.
+                        EncryptiVault is an open-source, privacy-first password manager designed for individuals and teams who value security and control. With zero-knowledge architecture and end-to-end encryption, only you can access your data. Your master password and secrets never leave your device.
                     </p>
                 </section>
 
@@ -148,7 +148,7 @@ export default async function HomePage() {
                 <section className="mt-16 max-w-4xl mx-auto text-center">
                     <h2 className="text-2xl font-bold text-blue-600 mb-2">Open Source & Tech Stack</h2>
                     <p className="text-[var(--foreground)] text-base md:text-lg mb-4">
-                        SecureVault is fully open source and welcomes contributions! Built with Next.js, MongoDB, Tailwind CSS, and modern cryptography libraries.
+                        EncryptiVault is fully open source and welcomes contributions! Built with Next.js, MongoDB, Tailwind CSS, and modern cryptography libraries.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4 mt-4">
                         <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Next.js</span>
@@ -229,7 +229,7 @@ export default async function HomePage() {
                         </div>
                         <div className="mt-8 md:mt-0 md:order-1">
                             <p className="text-center text-base text-[var(--foreground)]">
-                                &copy; {new Date().getFullYear()} SecureVault. All rights reserved.
+                                &copy; {new Date().getFullYear()} EncryptiVault. All rights reserved.
                             </p>
                         </div>
                     </div>

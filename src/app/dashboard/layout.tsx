@@ -23,7 +23,7 @@ export default function DashboardLayout({
             <nav className="bg-[var(--card-bg)] shadow-sm border-b border-[var(--card-border)]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
-                        <h1 className="text-xl font-semibold">Secure Vault</h1>
+                        <h1 className="text-xl font-semibold">EncryptiVault</h1>
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => {

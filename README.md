@@ -1,4 +1,4 @@
-# PassiVault - Secure Password Manager
+# EncryptiVault - Secure Password Manager
 
 A secure, zero-knowledge password manager built with Next.js, featuring client-side encryption, Google Drive backup, and robust deletion protection.
 
@@ -165,7 +165,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Deployment on Vercel
 
-You can easily deploy PassiVault to [Vercel](https://vercel.com/):
+You can easily deploy EncryptiVault to [Vercel](https://vercel.com/):
 
 ### 1. Set Environment Variables in Vercel
 
