@@ -18,7 +18,7 @@ export default async function FolderPage({ params }: { params: Promise<{ folderI
     });
 
     return (
-        <div className="px-2 sm:px-4 md:px-8 max-w-4xl mx-auto w-full">
+        <div className="w-full">
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <FolderComponent folderId={folderId} />
             </HydrationBoundary>

@@ -1,4 +1,4 @@
-# EncryptiVault - Secure Password Manager
+# Kavalan - Secure Password Manager
 
 A secure, zero-knowledge password manager built with Next.js, featuring client-side encryption, Google Drive backup, and robust deletion protection.
 
@@ -29,8 +29,8 @@ A secure, zero-knowledge password manager built with Next.js, featuring client-s
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/mahaveer1013/encryptivault.git
-cd encryptivault
+git clone https://github.com/mahaveer1013/kavalan.git
+cd kavalan
 ```
 
 ---
@@ -165,7 +165,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Deployment on Vercel
 
-You can easily deploy EncryptiVault to [Vercel](https://vercel.com/):
+You can easily deploy Kavalan to [Vercel](https://vercel.com/):
 
 ### 1. Set Environment Variables in Vercel
 

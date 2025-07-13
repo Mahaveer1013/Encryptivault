@@ -1,6 +1,6 @@
-# Contributing to Encryptivault
+# Contributing to Kavalan
 
-Thank you for your interest in contributing! Encryptivault is an open source password manager that puts privacy and user control first. We welcome all contributions—code, documentation, bug reports, feature requests, and more.
+Thank you for your interest in contributing! Kavalan is an open source password manager that puts privacy and user control first. We welcome all contributions—code, documentation, bug reports, feature requests, and more.
 
 ## How to Contribute
 

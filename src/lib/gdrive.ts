@@ -47,7 +47,7 @@ export function getGoogleDriveClient() {
 }
 
 /**
- * Store the password data inside "EncryptiVault/${folder.name}/$[password.site}.json"
+ * Store the password data inside "Kavalan/${folder.name}/$[password.site}.json"
  */
 export async function addPasswordToGoogleDrive(password: Password, folderId: string, userId: string) {
     if (process.env.GOOGLE_DRIVE_BACKUP !== 'true') {
@@ -62,11 +62,11 @@ export async function addPasswordToGoogleDrive(password: Password, folderId: str
         throw new Error(`Folder with ID ${folderId} not found`);
     }
     const backupFolderName = folder.name;
-    const parentFolderName = 'EncryptiVault';
+    const parentFolderName = 'Kavalan';
     const passwordFileName = `${password.site}.json`;
 
     try {
-        // Step 1: Find or create EncryptiVault
+        // Step 1: Find or create Kavalan
         let parentId: string | null = null;
         const parentSearch = await drive.files.list({
             q: `name='${parentFolderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
@@ -86,7 +86,7 @@ export async function addPasswordToGoogleDrive(password: Password, folderId: str
             parentId = createdParent.data.id!;
         }
 
-        // Step 2: Find or create folder.name inside EncryptiVault
+        // Step 2: Find or create folder.name inside Kavalan
         let folderId: string | null = null;
         const childSearch = await drive.files.list({
             q: `name='${backupFolderName}' and '${parentId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
@@ -140,7 +140,7 @@ export async function addPasswordToGoogleDrive(password: Password, folderId: str
 }
 
 /**
- * Create a backup folder inside "EncryptiVault" and upload data.json
+ * Create a backup folder inside "Kavalan" and upload data.json
  */
 export async function createBackupFolder(folder: Folder) {
     if (process.env.GOOGLE_DRIVE_BACKUP !== 'true') {
@@ -148,11 +148,11 @@ export async function createBackupFolder(folder: Folder) {
         return;
     }
     const drive = getGoogleDriveClient();
-    const parentFolderName = 'EncryptiVault';
+    const parentFolderName = 'Kavalan';
     const backupFolderName = folder.name;
 
     try {
-        // Step 1: Find or create "EncryptiVault"
+        // Step 1: Find or create "Kavalan"
         let parentId: string | null | undefined;
         const parentSearch = await drive.files.list({
             q: `name='${parentFolderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
@@ -172,7 +172,7 @@ export async function createBackupFolder(folder: Folder) {
             parentId = parentFolder.data.id!;
         }
 
-        // Step 2: Create child folder inside "EncryptiVault"
+        // Step 2: Create child folder inside "Kavalan"
         let backupFolderId: string | null | undefined;
         const childSearch = await drive.files.list({
             q: `name='${backupFolderName}' and '${parentId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,

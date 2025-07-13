@@ -4,7 +4,7 @@ export default function WorkflowPage() {
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-5xl font-bold text-gray-900 mb-4">EncryptiVault API Workflow</h1>
+                    <h1 className="text-5xl font-bold text-gray-900 mb-4">Kavalan API Workflow</h1>
                     <p className="text-xl text-gray-600">Complete Security Architecture & API Documentation</p>
                 </div>
 

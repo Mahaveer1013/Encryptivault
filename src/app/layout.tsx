@@ -9,7 +9,7 @@ import { ToastProvider } from 'context/ToastContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-    title: 'EncryptiVault Password Manager',
+    title: 'Kavalan Password Manager',
     description: 'A zero-knowledge password manager with client-side encryption',
     icons: {
         icon: '/lock.ico',
